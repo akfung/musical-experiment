@@ -6,3 +6,7 @@ body {
 canvas {
   display: block;
 }
+
+#music-container {
+  position: relative;
+}

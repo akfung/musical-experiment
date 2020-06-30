@@ -3,7 +3,10 @@ let mrNoisy, playButton, stopButton, chooseNoise, setVolume, toggleOnOff, fft;
 
 function setup() {
   //object background
-  createCanvas(400, 200);
+  var canvas = createCanvas(400, 200);
+  canvas.parent("music-container");
+  // canvas.position(0, "getfucked", "getfucked");
+
   //create new noise generator
   mrNoisy = new p5.Noise();
   //set initial amplitude
@@ -14,8 +17,10 @@ function setup() {
 
   //play button toggles depending on if music is playing
   toggleOnOff = createButton("play")
-    .position(10, 10)
-    .style("font-family", "courier");
+    .parent("music-container")
+    .position(10, 10, "relative")
+    .style("font-family", "courier")
+    .class("music-start");
   //event listener on mouse press
   toggleOnOff.mousePressed(() => {
     if (mrNoisy.started) {
@@ -29,7 +34,7 @@ function setup() {
 
   //noise selection dropdown
   chooseNoise = createSelect();
-  chooseNoise.position(60, 10); //set location
+  chooseNoise.position(60, 10, "relative").parent("music-container"); //set location
   chooseNoise.option("white");
   chooseNoise.option("pink");
   chooseNoise.option("brown");
@@ -41,7 +46,7 @@ function setup() {
 
   //create volume slider
   setVolume = createSlider(-60, 0, -60, 1);
-  setVolume.position(130, 10);
+  setVolume.position(130, 10, "relative").parent("music-container");
   // use .input listener for changing volume
   setVolume.input(() => {
     //volume slider is logarithmic
@@ -72,16 +77,15 @@ function draw() {
   endShape();
 }
 
-//resume audio for chrome
-function touchStarted() {
-  if (getAudioContext().state !== "running") {
-    getAudioContext().resume();
-  }
-}
+//new audio context on load
+window.onload = function () {
+  let context = new AudioContext(); //define new audio context
+  //set play music button to resume audio context
+  document.querySelector(".play-button").addEventListener("click", function () {
+    context.resume().then(() => {
+      console.log("Playback resumed successfully");
+    });
+  });
+};
 
 //listener to get audio started
-document.querySelector(".play-button").addEventListener("click", function () {
-  context.resume().then(() => {
-    console.log("Playback resumed successfully");
-  });
-});
