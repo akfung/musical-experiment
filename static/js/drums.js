@@ -13,9 +13,9 @@ function setup() {
   cursorPos = 0;
 
   //load each sound
-  hh = loadSound("assets/hh_sample.mp3", () => {});
-  clap = loadSound("assets/clap_sample.mp3", () => {});
-  bass = loadSound("assets/bass_sample.mp3", () => {});
+  hh = loadSound("../../assets/drum_samples/hh_sample.mp3", () => {});
+  clap = loadSound("../../assets/drum_samples/clap_sample.mp3", () => {});
+  bass = loadSound("../../assets/drum_samples/bass_sample.mp3", () => {});
 
   //set beat for each instrument
   hPat = new Array(16).fill(0);
